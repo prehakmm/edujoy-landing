@@ -10,19 +10,19 @@
   tabs.forEach(function(t){t.addEventListener('click',function(){show(t.dataset.tab);});});
   document.querySelectorAll('a[data-tab]').forEach(function(a){a.addEventListener('click',function(){show(a.dataset.tab);});});
 
-  // "Chci tento kurz" předvyplní formulář
-  document.querySelectorAll('a[data-course]').forEach(function(a){
+  // Course card button pre-fills the form (format + course option)
+  var form=document.getElementById('lead-form');
+  document.querySelectorAll('a[data-option]').forEach(function(a){
     a.addEventListener('click',function(){
       var fmt=document.querySelector('input[name=format][value="'+a.dataset.format+'"]'); if(fmt) fmt.checked=true;
-      var base=a.dataset.course.replace(/ \((online|prezenčně)\)$/,'').replace(/^Klasický kurz A2 \/ B1 \/ B2 \/ C1$/,'');
-      var sel=document.getElementById('f-course');
-      if(base){for(var i=0;i<sel.options.length;i++){if(sel.options[i].text===base){sel.selectedIndex=i;}}}
-      else {var msg=document.getElementById('f-msg'); if(!msg.value) msg.value='Mám zájem o klasický kurz, úroveň: ';}
+      var sel=document.getElementById('f-course'), opt=a.dataset.option;
+      if(opt){for(var i=0;i<sel.options.length;i++){if(sel.options[i].text===opt){sel.selectedIndex=i;}}}
+      else {var msg=document.getElementById('f-msg'); if(!msg.value) msg.value=form.dataset.msgClassic||'';}
     });
   });
 
   // Formulář: jen klientská validace + poděkování (bez backendu)
-  var form=document.getElementById('lead-form'), err=document.getElementById('form-error'), thanks=document.getElementById('thanks');
+  var err=document.getElementById('form-error'), thanks=document.getElementById('thanks');
   form.addEventListener('submit',function(e){
     e.preventDefault();
     var ok=true;
